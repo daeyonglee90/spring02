@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->                        
+<mapper namespace="member">
+
+	<select id="loginCheck" resultType="String">
+		SELECT USER_NAME AS USERNAME
+		  FROM TBL_MEMBER
+		 WHERE USER_ID = #{userId}
+		   AND USER_PW = #{userPw}
+	</select>
+	
+	<select id="viewMember" resultType="com.example.spring02.model.member.dto.MemberVO">
+		SELECT USER_NAME AS USERNAME
+		     , USER_ID AS USERID
+		     , USER_EMAIL AS USEREMAIL
+		     , USER_REGDATE AS USERREGDATE
+		  FROM TBL_MEMBER
+		 WHERE USER_ID = #{userId}
+		   AND USER_PW = #{userPw}
+	</select>
+	
+</mapper>
