@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- log4jdbc-log4j2 -->
+	<!-- jdbc 명령어를 log로 자세하게 볼수 있는 설정 -->
+	<logger name="jdbc.sqltiming"      level="DEBUG"/>
+	<logger name="jdbc.audit"          level="INFO" />
+	<logger name="jdbc.resultset"      level="WARN" />
+	<logger name="jdbc.resultsettable" level="ERROR" />
+	<logger name="jdbc.connection"     level="INFO" />
+	
+	<!-- console에 출력할 패턴을 정의 -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-4level [%logger.%method:%line] - %msg%n </pattern>
+		</layout>
+	</appender>
+	
+	<!-- 로그파일 저장 위치 및 로그파일의 형태, 기간 정의 -->
+	<logger name="myweb" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="LOGFILE" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>

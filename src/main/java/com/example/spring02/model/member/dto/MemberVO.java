@@ -10,6 +10,7 @@ public class MemberVO {
 	private String userEmail;
 	private Date userRegdate; // java.sql.Date
 	private Date userUpdatedate;
+	
 	public String getUserId() {
 		return userId;
 	}

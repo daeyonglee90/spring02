@@ -11,5 +11,4 @@
 		<a href="${path}/member/logout.do">로그아웃</a>
 	</c:otherwise>
 </c:choose>
-
 <hr>

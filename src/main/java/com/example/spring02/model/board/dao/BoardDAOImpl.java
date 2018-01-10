@@ -43,9 +43,11 @@ public class BoardDAOImpl implements BoardDAO {
 
 	// 05. 게시글 전체 목록
 	@Override
-	public List<BoardVO> listAll(String searchOption, String keyword) throws Exception {
+	public List<BoardVO> listAll(int start, int end, String searchOption, String keyword) throws Exception {
 		// 검색옵션, 키워드 맵에 저장
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("end", end);
 		map.put("searchOption", searchOption);
 		map.put("keyword", keyword);
 		return sqlSession.selectList("board.listAll", map);
@@ -65,6 +67,13 @@ public class BoardDAOImpl implements BoardDAO {
 		map.put("searchOption", searchOption);
 		map.put("keyword", keyword);
 		return sqlSession.selectOne("board.countArticle", map);
+	}
+
+	@Override
+	public void insertGarbageData(BoardVO vo) throws Exception {
+		
+		sqlSession.insert("board.insertGarbageData", vo);
+		
 	}
 
 }

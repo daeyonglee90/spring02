@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.spring02.model.board.dto.BoardVO;
+import com.example.spring02.service.board.BoardPager;
 import com.example.spring02.service.board.BoardService;
 
 @Controller // 현재 클래스를 컨트롤러 빈(bean)으로 등록
@@ -28,25 +29,38 @@ public class BoardController {
 	
 	// 01. 게시글 목록
 	@RequestMapping("list.do")
-	// @RequestParam(defaultValue="") ==> 기본값 할당
+	// @RequestParam(defaultValue="") ==> 기본값 할당 : 현재페이지를 1로 초기
 	public ModelAndView list(@RequestParam(defaultValue="title") String searchOption,
-									@RequestParam(defaultValue="") String keyword) throws Exception {
-		List<BoardVO> list = boardService.listAll(searchOption, keyword);
+								 	@RequestParam(defaultValue="") String keyword,
+									@RequestParam(defaultValue="1") int curPage) throws Exception {
+		
 		// 레코드의 갯수
 		int count = boardService.countArticle(searchOption, keyword);
-		// ModelAndView - 모델과 뷰
-		ModelAndView mav = new ModelAndView();
-		/* mav.addObject("list", list); //데이터를 저장
+		
+		// 페이지 나누기 관련 처리
+		BoardPager boardPager = new BoardPager(count, curPage);
+		int start = boardPager.getPageBegin();
+		int end   = boardPager.getPageEnd();
+		
+		List<BoardVO> list = boardService.listAll(start, end, searchOption, keyword);
+		
+		/* 
+		   mav.addObject("list", list); //데이터를 저장
 		   mav.addObject("count", count);
 		   mav.addObject("searchOption", searchOption);
 		   mav.addObject("keyword", keyword);
 		 */
+		
 		// 데이터를 맵에 저장
 		Map<String, Object> map = new HashMap<String, Object>();
+		
 		map.put("list", list);						// list
 		map.put("count", count);						// 레코드의 갯수
 		map.put("searchOption", searchOption);		// 검색옵션
 		map.put("keyword", keyword);				// 검색키워드
+		map.put("boardPager", boardPager);
+		
+		ModelAndView mav = new ModelAndView();
 		mav.addObject("map", map);					// 맵에 저장된 데이터를 mav에 저장
 		mav.setViewName("board/list"); 				// 뷰를 list.jsp로 설정
 		return mav;                    				// list.jsp로 List가 전달된다.
@@ -62,7 +76,11 @@ public class BoardController {
 	
 	// 02_02. 게시글 작성처리
 	@RequestMapping(value="insert.do", method=RequestMethod.POST)
-	public String insert(@ModelAttribute BoardVO vo) throws Exception {
+	public String insert(@ModelAttribute BoardVO vo, HttpSession session) throws Exception {
+		// session에 저장된 userId를 writer에 저장
+		String writer = (String) session.getAttribute("userId");
+		// vo에 writer를 세팅
+		vo.setWriter(writer);
 		boardService.create(vo);
 		return "redirect:list.do";
 	}
