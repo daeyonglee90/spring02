@@ -52,7 +52,13 @@
 			<tr>
 				<td>${row.bno}</td>
 				<!-- 게시글 상세보기 페이지로 이동 시 게시글 목록 페이지에 있는 검색조건, 키워드, 현재페이지 값을 유지하기 위해 -->
-				<td><a href="${path}/board/view.do?bno=${row.bno}&curPage=${map.boardPager.curPage}&searchOption=${map.keyword}">${row.title}</a></td>
+				<td>
+					<a href="${path}/board/view.do?bno=${row.bno}&curPage=${map.boardPager.curPage}&searchOption=${map.keyword}">${row.title}</a>
+					<!-- 댓글이 있으면 게시글 이름 옆에 출력하기 -->
+					<c:if test="${row.recnt > 0}">
+					<span style="color: red;">(${row.recnt})</span>
+					</c:if>
+				</td>
 				<td>${row.userName}</td>
 				<td>
 					<!-- 원하는 날짜형식으로 출력하기 위해 fmt태그 사용 -->
@@ -86,12 +92,12 @@
 					</c:choose>
 				</c:forEach>
 				<!-- 다음페이지 블록으로 이동 : 현재 페이지 블럭이 전체 페이지 블럭보다 작거나 같으면 [다음]하이퍼링크를 화면에 출력 -->
-				<c:if test="${map.boardPager.curBlock <= map.boardPager.totBlock}">
+				<c:if test="${map.boardPager.curBlock < map.boardPager.totBlock}">
 				  <a href="javascript:list('${map.boardPager.nextPage}')">[다음]</a>
 				</c:if>
 				
 				<!-- 끝페이지로 이동 : 현재 페이지가 전체 페이지보다 작거나 같으면 [끝]하이퍼링크를 화면에 출력 -->
-				<c:if test="${map.boardPager.curPage <= map.boardPager.totPage}">
+				<c:if test="${map.boardPager.curPage < map.boardPager.totPage}">
 				  <a href="javascript:list('${map.boardPager.totPage}')">[끝]</a>
 				</c:if>
 			</td>

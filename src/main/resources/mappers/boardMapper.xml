@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
@@ -14,6 +15,7 @@
 		     , B.REGDATE
 		     , B.VIEWCNT
 		     , M.USER_NAME AS USERNAME
+		     , (SELECT COUNT(*) FROM TBL_REPLY WHERE BNO = B.BNO) AS RECNT
 		  FROM TBL_BOARD B
 		     , TBL_MEMBER M
 		  <!-- WHERE절을 include 태그로 삽입 -->
@@ -65,7 +67,8 @@
 	<sql id="pagingFooter">
 							) A
 						, (SELECT @rownum := 0) AS R
-				) WHERE rn BETWEEN #{start} AND #{end}
+				) MAIN
+		   WHERE MAIN.rn BETWEEN #{start} AND #{end}
 	</sql>
 	
 	<!-- 02. 게시글 작성 -->
