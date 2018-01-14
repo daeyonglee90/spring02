@@ -31,7 +31,7 @@
 		     , BNO
 		     , REPLYTEXT
 		     , REPLYER
-		     , USER_NAME AS USERNAME
+		     , M.USER_NAME AS USERNAME
 		     , R.REGDATE
 		     , R.UPDATEDATE
 		  FROM TBL_REPLY R
