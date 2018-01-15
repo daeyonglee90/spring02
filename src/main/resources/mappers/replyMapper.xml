@@ -13,32 +13,60 @@
 			  BNO
 			, REPLYTEXT
 			, REPLYER
+			, SECRET_REPLY
 			
 			) VALUES (
+			
 			  #{bno}
 			, #{replytext}
 			, #{replyer}
-		
+			, #{secretReply}
+			
 			)					
 						
 	</insert>
 	
 	<!-- 댓글 목록 -->
 	<select id="listReply" resultType="com.example.spring02.model.board.dto.ReplyVO">
-	
+		
+		<include refid="pagingHeader" />
 		SELECT 
-		       RNO
-		     , BNO
-		     , REPLYTEXT
-		     , REPLYER
-		     , M.USER_NAME AS USERNAME
+		       R.RNO
+		     , R.BNO
+		     , R.REPLYTEXT
+		     , R.REPLYER
+		     ,	R.SECRET_REPLY AS SECRETREPLY
 		     , R.REGDATE
 		     , R.UPDATEDATE
+		     , M.USER_NAME AS USERNAME
+		     , (SELECT WRITER FROM TBL_BOARD WHERE BNO = R.BNO) AS WRITER
 		  FROM TBL_REPLY R
 		     , TBL_MEMBER M
 		 WHERE R.REPLYER = M.USER_ID
 		   AND BNO = #{bno}
 		 ORDER BY RNO
-		 
+		 <include refid="pagingFooter" />
 	</select>
+	
+	<!-- 댓글 갯수(페이징처리) -->
+	<select id="countReply" resultType="int">
+		SELECT COUNT(*)
+		  FROM TBL_REPLY
+		 WHERE BNO = #{bno}
+	</select>
+	
+	<!-- 페이징 sql -->
+	<sql id="pagingHeader">
+		SELECT MAIN.*
+		  FROM (
+		  			SELECT @rownum := @rownum + 1 AS rn
+		  			     , A.*
+		  			  FROM ( 
+	</sql>
+	<sql id="pagingFooter">
+							) A
+						  , (SELECT @rownum := 0) AS R
+				) MAIN
+		 WHERE MAIN.rn BETWEEN #{start} AND #{end} 
+	</sql>
 </mapper>

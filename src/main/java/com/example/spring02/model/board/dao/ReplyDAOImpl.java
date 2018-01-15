@@ -1,6 +1,8 @@
 package com.example.spring02.model.board.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -17,8 +19,14 @@ public class ReplyDAOImpl implements ReplyDAO {
 	
 	// 댓글 목록
 	@Override
-	public List<ReplyVO> list(Integer bno) {
-		return sqlSession.selectList("reply.listReply", bno);
+	public List<ReplyVO> list(Integer bno, int start, int end) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("bno", bno);
+		map.put("start", start);
+		map.put("end", end);
+		
+		return sqlSession.selectList("reply.listReply", map);
 	}
 
 	// 댓글 작성
@@ -39,5 +47,11 @@ public class ReplyDAOImpl implements ReplyDAO {
 	public void delete(Integer rno) {
 		// TODO Auto-generated method stub
 
+	}
+
+	// 댓글 갯수
+	@Override
+	public int count(int bno) {
+		return sqlSession.selectOne("reply.countReply", bno);
 	}
 }

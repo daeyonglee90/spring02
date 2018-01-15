@@ -8,15 +8,24 @@
 <script>
     $(document).ready(function(){
     	
-    	// listReply(); 		// 댓글 목록 불러오기
-    	listReply2();			// json 리턴방식
+    	listReply("1"); 		// 댓글 목록 불러오기
+    	//listReply2();			// json 리턴방식
     	
     	// 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
     	$('#btnReply').click(function(){
     		
     		var replytext = $('#replytext').val();
     		var bno       = "${dto.bno}";
-    		var param     = "replytext="+replytext+"&bno="+bno;
+    		// 비밀댓글 체크여부
+    		var secretReply = "n";
+    		// 태그.is(":속성") 체크여부 true/false
+    		if ($('#secretReply').is(":checked")) {
+    			secretReply = "y";
+    		}
+    		
+    		// alert(secretReply);
+    		// 비밀댓글 파라미터 추가
+    		var param     = "replytext="+replytext+"&bno="+bno+"&secretReply="+secretReply;
     		
     		$.ajax({
     			type    : "post",
@@ -24,7 +33,7 @@
     			data    : param,
     			success : function(){
     				alert("댓글이 등록되었습니다.");
-    				listReply2();
+    				listReply("1");
     			} 
     		});
     	});
@@ -72,10 +81,10 @@
     
     // Controller방식
     // 댓글 목록1
-    function listReply(){
+    function listReply(num){
     	$.ajax({
     		type    : "get",
-    		url     : "${path}/reply/list.do?bno=${dto.bno}",
+    		url     : "${path}/reply/list.do?bno=${dto.bno}&curPage="+num,
     		success : function(result){
     			// responseText가 result에 저장됨.
     			$('#listReply').html(result);
@@ -156,8 +165,9 @@
         <button type="button" id="btnUpdete">수정</button>
         <button type="button" id="btnDelete">삭제</button>
     </c:if>
-        <!-- **상세보기 화면에서 게시글 목록화면으로 이동 -->
+        <!-- 상세보기 화면에서 게시글 목록화면으로 이동 -->
         <button type="button" id="btnList">목록</button>
+        <hr>
     </div>
 </form>
 	<div style="width:650px; text-align: center;">
@@ -166,8 +176,11 @@
 		<c:if test="${sessionScope.userId != null}">
 			<textarea rows="5" cols="80" id="replytext" placeholder="댓글을 작성해주세요"></textarea>
 			<br>
+			<!-- 비밀댓글 체크박스 -->
+			<input type="checkbox" id="secretReply">비밀 댓글
 			<button type="button" id="btnReply">댓글 작성</button>
 		</c:if>
+	<hr>
 	</div>
 	<!-- 댓글 목록 출력할 위치 -->
 	<div id="listReply"></div>
