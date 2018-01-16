@@ -14,6 +14,11 @@
 					${row.userName}<fmt:formatDate value="${row.regdate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 					<br>
 					${row.replytext}
+					<br>
+					<!-- 본인 댓글만 수정버튼 생성되도록 처리 -->
+					<c:if test="${sessionScope.userId == row.replyer}">
+						<input type="button" id="btnModify" value="수정" onclick="showReplyModify('${row.rno}')">
+					</c:if>
 					<hr>
 				</td>
 			</tr>
@@ -51,5 +56,8 @@
 			</td>
 		</tr>
 	</table>
+	
+	<!-- 댓글 수정 영역 -->
+	<div id="modifyReply"></div>
 </body> 
 </html>
