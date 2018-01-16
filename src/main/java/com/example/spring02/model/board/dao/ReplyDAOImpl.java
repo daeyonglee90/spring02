@@ -53,5 +53,5 @@ public class ReplyDAOImpl implements ReplyDAO {
 	@Override
 	public int count(int bno) {
 		return sqlSession.selectOne("reply.countReply", bno);
-	}
+	} 
 }

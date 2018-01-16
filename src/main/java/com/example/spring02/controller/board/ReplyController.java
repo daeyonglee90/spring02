@@ -5,8 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,13 +44,39 @@ public class ReplyController {
 		replyService.create(vo);
 	}
 	
+	// 댓글 입력 (Rest방식으로 json전달하여 글쓰기)
+	// @ResponseEntity : 데이터 + http status code
+	// @ResponseBody   : 객체를 json으로 (json - String)
+	// @RequestBody    : json을 객체로
+	@RequestMapping(value="insertRest.do", method=RequestMethod.POST)
+	public ResponseEntity<String> insertRest(@RequestBody ReplyVO vo, HttpSession session) {
+		
+		ResponseEntity<String> entity = null;
+		
+		try {
+			String userId = (String) session.getAttribute("userId");
+			vo.setReplyer(userId);
+			replyService.create(vo);
+			// 댓글 입력이 성공하면 성공메시지 저장
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// 댓글 입력이 실패하면 실패메시지 저장
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		// 입력 처리 HTTP 상태 메시지 리턴
+		return entity;
+	}
+	
+	
 	// 댓글 목록(@Controller방식 : view(화면)를 리턴)
 	@RequestMapping("list.do")
 	public ModelAndView list(@RequestParam int bno,
 								@RequestParam(defaultValue="1") int curPage,
 								ModelAndView mav,
 								HttpSession session) {
-		
+		 
 		// 페이징 처리
 		int count = replyService.count(bno);	// 댓글 갯수
 		ReplyPager replyPager = new ReplyPager(count, curPage);

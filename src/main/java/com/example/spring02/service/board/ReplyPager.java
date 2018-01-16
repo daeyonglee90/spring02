@@ -175,4 +175,4 @@ public class ReplyPager {
 	public void setBlockEnd(int blockEnd) {
 		this.blockEnd = blockEnd;
 	}
-}
+} 

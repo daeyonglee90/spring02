@@ -14,7 +14,10 @@
     	// 댓글 쓰기 버튼 클릭 이벤트 (ajax로 처리)
     	$('#btnReply').click(function(){
     		
-    		var replytext = $('#replytext').val();
+    		// reply();	// 폼데이터로 입력
+    		replyJson();	// json으로 입력
+    		
+    		/* var replytext = $('#replytext').val();
     		var bno       = "${dto.bno}";
     		// 비밀댓글 체크여부
     		var secretReply = "n";
@@ -35,7 +38,7 @@
     				alert("댓글이 등록되었습니다.");
     				listReply("1");
     			} 
-    		});
+    		}); */
     	});
     	
         // ** 목록 버튼 클릭 이벤트 : 버튼 클릭시 상세보기화면에 있던 페이지, 검색옵션, 키워드 값을 가지로 목록으로 이동
@@ -78,6 +81,36 @@
             
         });
     });
+    
+    // 댓글 쓰기 (json방식)
+    function replyJson() {
+    	var replytext = $('#replytext').val();
+		var bno       = "${dto.bno}";
+		// 비밀댓글 체크여부
+		var secretReply = "n";
+		// 태그.is(":속성") 체크여부 true/false
+		if ($('#secretReply').is(":checked")) {
+			secretReply = "y";
+		}
+		
+		$.ajax({
+			type     : "post",
+			url      : "${path}/reply/insertRest.do",
+			headers  : {
+				"Content-Type" : "application/json"
+			},
+			dataType : "text",
+			data     : JSON.stringify({
+				bno : bno,
+				replytext : replytext,
+				secretReply : secretReply
+			}),
+			success : function(){
+				alert("댓글이 등록되었습니다.");
+				listReply("1");
+			} 
+		});
+    }
     
     // Controller방식
     // 댓글 목록1

@@ -66,4 +66,4 @@ public class ReplyServiceImpl implements ReplyService {
 		return replyDao.count(bno);
 	}
 
-}
+} 

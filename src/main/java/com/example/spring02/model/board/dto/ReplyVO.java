@@ -74,5 +74,5 @@ public class ReplyVO {
 		return "ReplyVO [rno=" + rno + ", bno=" + bno + ", replytext=" + replytext + ", replyer=" + replyer
 				+ ", userName=" + userName + ", regdate=" + regdate + ", updatedate=" + updatedate + ", secretReply="
 				+ secretReply + ", writer=" + writer + "]";
-	}
+	} 
 }

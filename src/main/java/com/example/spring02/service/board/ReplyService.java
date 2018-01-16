@@ -18,4 +18,4 @@ public interface ReplyService {
 	public void delete(Integer rno);
 	// 댓글 갯수
 	public int count(int bno);
-}
+} 
