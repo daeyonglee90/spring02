@@ -13,6 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.example.spring02.model.board.dao.BoardDAOImpl;
 import com.example.spring02.model.board.dto.BoardVO;
+import com.example.spring02.model.board.dto.ReplyVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -37,6 +38,19 @@ public class InsertGarbageData {
 			vo.setWriter("abcd");
 			
 			dao.insertGarbageData(vo);
+			
+		}
+		
+	}
+	
+	@Test
+	public void insertReplyData() throws Exception {
+		
+		ReplyVO vo = new ReplyVO();
+		
+		for (int i=1; i<=500; i++) {
+			vo.setBno(1000);
+			vo.setRno(i);
 			
 		}
 		

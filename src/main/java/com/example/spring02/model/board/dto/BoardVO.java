@@ -7,10 +7,11 @@ public class BoardVO {
 	private String title; 	 	// 게시글 제목
 	private String content;	 	// 게시글 내용
 	private String writer;	 	// 게시글 작성자
+	private String userName; 	// 게시글 회원이름 = 게시글 작성자
 	private Date regdate;	 	// 게시글 작성일자
 	private int viewcnt;		 	// 게시글 조회수
-	private String userName; 	// 게시글 회원이름 = 게시글 작성자
 	private int recnt;			// 게시글 댓글의 수 추가
+	private String show;			// 게시글 삭제 상태 유무
 	public int getBno() {
 		return bno;
 	}
@@ -35,6 +36,12 @@ public class BoardVO {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public Date getRegdate() {
 		return regdate;
 	}
@@ -47,22 +54,23 @@ public class BoardVO {
 	public void setViewcnt(int viewcnt) {
 		this.viewcnt = viewcnt;
 	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
 	public int getRecnt() {
 		return recnt;
 	}
 	public void setRecnt(int recnt) {
 		this.recnt = recnt;
 	}
+	public String getShow() {
+		return show;
+	}
+	public void setShow(String show) {
+		this.show = show;
+	}
 	
 	@Override
 	public String toString() {
-		return "BoardVO [bno=" + bno + ", title=" + title + ", content=" + content + ", writer=" + writer + ", regdate="
-				+ regdate + ", viewcnt=" + viewcnt + ", userName=" + userName + ", recnt=" + recnt + "]";
+		return "BoardVO [bno=" + bno + ", title=" + title + ", content=" + content + ", writer=" + writer
+				+ ", userName=" + userName + ", regdate=" + regdate + ", viewcnt=" + viewcnt + ", recnt=" + recnt
+				+ ", show=" + show + "]";
 	}
 }

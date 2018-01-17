@@ -16,8 +16,8 @@
 		     , B.VIEWCNT
 		     , M.USER_NAME AS USERNAME
 		     , (SELECT COUNT(*) FROM TBL_REPLY WHERE BNO = B.BNO) AS RECNT
-		  FROM TBL_BOARD B
-		     , TBL_MEMBER M
+		  FROM TBL_BOARD B INNER JOIN TBL_MEMBER M
+		    ON (B.WRITER = M.USER_ID)
 		  <!-- WHERE절을 include 태그로 삽입 -->
 		  <include refid="search"></include>
 		 ORDER BY B.BNO DESC
@@ -43,15 +43,14 @@
 				WHERE B.WRITER = M.USER_ID
 				  AND 
 				     (
-				      M.USER_NAME LIKE '%' || #{keyword} || '%'
-				   OR B.CONTENT   LIKE '%' || #{keyword} || '%'
-				   OR B.TITLE     LIKE '%' || #{keyword} || '%'
+				      M.USER_NAME LIKE CONCAT('%',#{keyword},'%')
+				   OR B.CONTENT   LIKE CONCAT('%',#{keyword},'%')
+				   OR B.TITLE     LIKE CONCAT('%',#{keyword},'%')
 				     )
 			</when>
 			<!-- 전체 검색이 아닐 경우 -->
 			<otherwise>
-				WHERE B.WRITER = M.USER_ID
-				  AND ${searchOption} LIKE '%' || #{keyword} || '%'
+				WHERE ${searchOption} LIKE CONCAT('%',#{keyword},'%')
 			</otherwise>
 		</choose>
 	</sql>
@@ -116,11 +115,12 @@
 		     , WRITER  = #{writer}
 		 WHERE BNO = #{bno}
 	</update>
-	<!-- 06. 게시글 삭제처리 -->
-	<delete id="deleteArticle">
-		DELETE FROM TBL_BOARD
+	<!-- 06. 게시글 삭제처리하지 않고, 삭제의 유무 상태만 변경 -->
+	<update id="deleteArticle">
+		UPDATE TBL_BOARD
+		   SET USE_YN = 'n'
 		 WHERE BNO = #{bno}
-	</delete>
+	</update>
 	<!-- 테스트 데이터 넣기 -->
 	<insert id="insertGarbageData">
 		INSERT INTO TBL_BOARD
