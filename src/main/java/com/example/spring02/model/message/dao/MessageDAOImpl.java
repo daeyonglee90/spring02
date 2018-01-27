@@ -1,11 +1,11 @@
-package com.example.spring02.model.board.dao;
+package com.example.spring02.model.message.dao;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.example.spring02.model.board.dto.MessageVO;
+import com.example.spring02.model.message.dto.MessageVO;
 
 @Repository
 public class MessageDAOImpl implements MessageDAO {

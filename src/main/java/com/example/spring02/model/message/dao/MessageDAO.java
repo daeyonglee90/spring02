@@ -1,6 +1,6 @@
-package com.example.spring02.model.board.dao;
+package com.example.spring02.model.message.dao;
 
-import com.example.spring02.model.board.dto.MessageVO;
+import com.example.spring02.model.message.dto.MessageVO;
 
 public interface MessageDAO {
 

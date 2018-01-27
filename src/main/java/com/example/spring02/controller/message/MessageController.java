@@ -1,4 +1,4 @@
-package com.example.spring02.controller.board;
+package com.example.spring02.controller.message;
 
 import javax.inject.Inject;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.spring02.model.board.dto.MessageVO;
-import com.example.spring02.service.board.MessageService;
+import com.example.spring02.model.message.dto.MessageVO;
+import com.example.spring02.service.message.MessageService;
 
 @RestController
 @RequestMapping("/messages/*")

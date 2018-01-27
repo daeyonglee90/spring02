@@ -1,13 +1,13 @@
-package com.example.spring02.service.board;
+package com.example.spring02.service.message;
 
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.spring02.model.board.dao.MessageDAO;
 import com.example.spring02.model.board.dao.PointDAO;
-import com.example.spring02.model.board.dto.MessageVO;
+import com.example.spring02.model.message.dao.MessageDAO;
+import com.example.spring02.model.message.dto.MessageVO;
 
 @Service
 public class MessageServiceImpl implements MessageService {

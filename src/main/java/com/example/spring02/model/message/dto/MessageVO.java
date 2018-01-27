@@ -1,4 +1,4 @@
-package com.example.spring02.model.board.dto;
+package com.example.spring02.model.message.dto;
 
 import java.util.Date;
 

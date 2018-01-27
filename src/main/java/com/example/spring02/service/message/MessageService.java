@@ -1,6 +1,6 @@
-package com.example.spring02.service.board;
+package com.example.spring02.service.message;
 
-import com.example.spring02.model.board.dto.MessageVO;
+import com.example.spring02.model.message.dto.MessageVO;
 
 public interface MessageService {
 	
